@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>TestInfoWindow</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TestInfoWindow</td></tr>
+</thead><tbody>
+<!--Open an infor window with the marker -->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='listings']/ul/li/a[@id='2']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='map']//div[@class='viewItem overlay']</td>
+	<td></td>
+</tr>
+<!--Is the title and description correct-->
+<tr>
+	<td>verifyText</td>
+	<td>xpath=//h1[@id='viewItemTitle']</td>
+	<td>Item Number 2</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>xpath=//p[@id='viewItemDescription']</td>
+	<td>Description for item 2</td>
+</tr>
+<!--Is the contact this person link there-->
+<tr>
+	<td>verifyElementPresent</td>
+	<td>xpath=//div[@id='map']//div[@class='viewItem overlay']//a[@class='contact']</td>
+	<td></td>
+</tr>
+<!-- Is the contact form present and not visible, if yes click link to open it -->
+<tr>
+	<td>verifyElementPresent</td>
+	<td>xpath=//div[@class='contactForm']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@class='contactForm']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='map']//div[@class='viewItem overlay']//a[@class='contact']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@class='contactForm']</td>
+	<td></td>
+</tr>
+<!-- does cancel link hide the contact form -->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@class='contactForm']//a[@class='cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@class='contactForm']</td>
+	<td></td>
+</tr>
+<!-- re-open the contact form -->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='map']//div[@class='viewItem overlay']//a[@class='contact']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@class='contactForm']</td>
+	<td></td>
+</tr>
+<!-- is the users email address pre-populated, is the default message populated -->
+<tr>
+	<td>verifyValue</td>
+	<td>xpath=//div[@class='contactForm']//input[@class='contact email']</td>
+	<td>testuser@reyooz.com</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>xpath=//div[@class='contactForm']//textarea[@class='contact message']</td>
+	<td>Type your message here...</td>
+</tr>
+<!-- does the message textarea clear on click -->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@class='contactForm']//textarea[@class='contact message']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>xpath=//div[@class='contactForm']//textarea[@class='contact message']</td>
+	<td></td>
+</tr>
+<!-- type a message and click send -->
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='contactForm']//textarea[@class='contact message']</td>
+	<td>Hello, i want this. Please call me on 09909 889837. My name is PeteyPooh.</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='map']//div[@class='viewItem overlay']//a[@class='button send']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForAlert</td>
+	<td>Your message has been sent</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

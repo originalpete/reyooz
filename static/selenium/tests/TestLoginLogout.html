@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>TestLoginLogout</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TestLoginLogout</td></tr>
+</thead><tbody>
+<!--Verify that the buttons are in the correct state-->
+<tr>
+	<td>verifyElementPresent</td>
+	<td>xpath=//div[@id='loginLogout' and @class='isLoggedOut']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>xpath=//div[@id='loginLogout']/a[@class='loginLogout']</td>
+	<td>Login</td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='buttonEditItems']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<!--Check that clickingsvn login displays the dialog-->
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//a[@class='loginLogout']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<!--Check the close button works-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='loginSignup']//a[@class='close']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//a[@class='loginLogout']</td>
+	<td></td>
+</tr>
+<!--Signup our test user-->
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='signup']//input[@class='username email']</td>
+	<td>testuser@reyooz.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='signup']//input[@class='password']</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='signup']//input[@class='passwordConfirm confirm_password']</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@class='signup']//a[@class='button signup']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>xpath=//div[@class='confirmation']//strong[@class='email']</td>
+	<td>testuser@reyooz.com</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@class='confirmation']//a[@class='button ok']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<!--Activate testuser@reyooz.com by hitting the fixture-->
+<tr>
+	<td>open</td>
+	<td>/users/activate_by_email?email=testuser@reyooz.com</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<!--Now login testuser@reyooz.com-->
+<tr>
+	<td>click</td>
+	<td>xpath=//a[@class='loginLogout']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='login']//input[@class='username email']</td>
+	<td>testuser@reyooz.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='login']//input[@class='password']</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@class='login']//a[@class='button login']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=//div[@id='loginLogout' and @class='isLoggedIn']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>xpath=//div[@id='loginLogout']/a[@class='loginLogout']</td>
+	<td>Logout testuser@reyooz.com</td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='buttonEditItems']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//a[@class='loginLogout']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=//div[@id='loginLogout' and @class='isLoggedOut']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>xpath=//div[@id='loginLogout']/a[@class='loginLogout']</td>
+	<td>Login</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

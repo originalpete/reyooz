@@ -1,0 +1,3 @@
+cd ./solr-server
+java -jar start.jar
+#nohup java -jar start.jar </dev/null >>../log/solr.log 2>>../log/solr.log.err&

@@ -1,0 +1,8 @@
+/settings_local.py
+*.pyc
+tmp/*
+log/*
+db/*
+.DS_Store
+solr-server/logs/*
+solr-server/solr/data/*

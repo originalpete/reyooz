@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    
+    <title>{% block title %}API Scaffold{% endblock %}</title>
+    
+    {% block css %}
+        <link rel="stylesheet" href="/static/css/api_scaffold.css" type="text/css" media="screen" title="API Scaffold style" charset="utf-8">
+    {% endblock %}
+    
+    {% block js %}
+        <script type="text/javascript" src="/static/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.form.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.json-1.2.js"></script>
+        <script type="text/javascript" src="/static/js/api_scaffold.js"></script>
+    {% endblock %}
+    </head>
+    <body>
+        <div id="page">            
+            <div id="header"></div>
+
+            <div id="content">
+                <div id="jsonResponse"></div>
+                {% block content %}{% endblock %}
+            </div>
+
+            <div id="footer"></div>
+        </div>
+    </body>
+</html>

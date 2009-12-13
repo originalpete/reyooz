@@ -1,0 +1,44 @@
+<p>
+    Hi there,
+</p>
+<p>
+    A fellow Reyoozer is interested in "{{message.item.title}}", which is an 
+    item you listed on Reyooz.org. They'd like to get in touch with you, 
+    and left this message:
+</p>
+<p>
+    <hr/>
+    <br/>
+    {{message.message}}
+    <br/>
+    <hr/>
+</p>
+<p>
+    If the item is still available then please get in touch with the Reyoozer 
+    directly by email at {{message.email}}. If it's already been claimed or you no
+    longer wish to be contacted about it then please log onto the website and mark 
+    this item as taken. Thanks!
+</p>
+<p>
+    Please note: this is an automated email so do not reply to this message.
+    Instead, get in touch with us through the feedback form on 
+    <a href="{{base_url}}">Reyooz.org</a> or email us on help@reyooz.org.
+</p>
+<p> 
+    The Reyooz Team
+    <br/>
+    move it, find it, keep it
+</p>
+<p>
+    <b>Is this message spam or innapropriate?</b>
+    <br/>
+    If you think the enclosed message is spam or of an inappropriate nature then please let us 
+    know by clicking this link:
+    <br/>
+    <a href="{{base_url}}/messages/{{message.id}}/report_spam?magic_key={{message.magic_key}}">
+        {{base_url}}/messages/{{message.id}}/report_spam?magic_key={{message.magic_key}}
+    </a>
+    <br/>
+    We take internet safety very seriously and will do everything in our 
+    power to prevent spam or inappropriate messages being sent through Reyooz.org.
+</p>

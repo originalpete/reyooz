@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>TestListItem</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TestListItem</td></tr>
+</thead><tbody>
+<!--Check that user is prompted for login before listing item-->
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<!--Now login testuser@reyooz.com-->
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='login']//input[@class='username email']</td>
+	<td>testuser@reyooz.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@class='login']//input[@class='password']</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@class='login']//a[@class='button login']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='loginSignup']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--Test that the close button works-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='close']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--Check that a logged in user can list an item-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--Check that the cancel button works-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='cancel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--Reopen the add item panel and list an item in the default location-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--Click in the title to clear the text-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 1</td>
+</tr>
+<!--Now search for a location by postcode and hit enter to action-->
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>SE24 9JJ</td>
+</tr>
+<tr>
+	<td>keyUp</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>\13</td>
+</tr>
+<tr>
+	<td>waitForValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class=&quot;itemLat&quot;]</td>
+	<td>51.454939</td>
+</tr>
+<tr>
+	<td>waitForValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class=&quot;itemLng&quot;]</td>
+	<td>-0.090094</td>
+</tr>
+<!--Change the postcode and use the search button click to action-->
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>se153gw</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='where']/a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class=&quot;itemLat&quot;]</td>
+	<td>51.460902</td>
+</tr>
+<tr>
+	<td>waitForValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class=&quot;itemLng&quot;]</td>
+	<td>-0.061082</td>
+</tr>
+<!--Clear search field and blur to action search with an empty string-->
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>keyUp</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>\9</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class=&quot;itemLat&quot;]</td>
+	<td>51.460902</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class=&quot;itemLng&quot;]</td>
+	<td>-0.061082</td>
+</tr>
+<!--And then save our first item-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyVisible</td>
+	<td>xpath=//div[@id='buttonEditItems']</td>
+	<td></td>
+</tr>
+<!--Check that the item is in the list of items-->
+<tr>
+	<td>verifyText</td>
+	<td>xpath=//div[@id='listings']/ul/li[1]//h2</td>
+	<td>Item Number 1</td>
+</tr>
+<!--Add item number 2-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>w1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 3-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>sw129nj</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 3</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 3</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 4-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>tw12er</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 4</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 4</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 5-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>sw115ra</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 5</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 5</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 6-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>nw25tg</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 6</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 6</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 7-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>n52st</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 7</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 7</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 8-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>n42jx</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 8</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 8</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 9-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>w36qa</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 9</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 9</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 10-->
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='buttonAddItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>originalLat</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//input[@class='where']</td>
+	<td>w44ph</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='search']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotValue</td>
+	<td>xpath=//div[@id='addItem']//input[@class='itemLat']</td>
+	<td>exact:${originalLat}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//div[@class='title']/input</td>
+	<td>Item Number 10</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=//div[@id='addItem']//textarea</td>
+	<td>Description for item 10</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=//div[@id='addItem']//a[@class='button save']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>xpath=//div[@id='addItem']</td>
+	<td></td>
+</tr>
+<!--add item number 11-->
+
+</tbody></table>
+</body>
+</html>

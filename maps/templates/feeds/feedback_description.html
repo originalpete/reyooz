@@ -1,0 +1,15 @@
+<div>
+    {{ obj.message|safe }}
+</div>
+<br/>
+<div>
+    <strong>User:</strong>
+    {% if obj.user %}
+        {{ obj.user.email }}
+    {% else %}
+        None
+    {% endif %}
+</div>
+<div>
+    <strong>IP address:</strong> {{ obj.ip }}
+</div>

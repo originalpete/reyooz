@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block js %}
+    <script type="text/javascript" src="/static/js/jquery.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/api.js?{{cache_buster}}"></script>
+{% endblock %}
+
+
+{% block content %}
+<h1 class="api">Reyooz REST API</h1>
+<table class="api" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr valign="top">
+            <th class="method">METHOD<br />(expectation)</th>
+            <th class="url">URL</th>
+            <th class="desc">DESCRIPTION</th>
+            <th class="params">GET/POST PARAMS<br />(required fields in bold)</th>
+            <th class="success">SUCCESS RESPONSE</th>
+            <th class="failure">FAILURE RESPONSE</th>
+        </tr>
+        <tr>
+            <td class="method">GET (html)</td>
+            <td>/</td>
+            <td>Render the main page</td>
+            <td>&nbsp;</td>
+            <td>html: render index.html</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr class="divider">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/login</td>
+            <td>Login a user</td>
+            <td class="params">email, password</td>
+            <td>&nbsp;</td>
+            <td>form errors</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/logout</td>
+            <td>Logout current user</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr class="divider">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/users/new</td>
+            <td>Create a new user.<br />User cannot login until email address verified.</td>
+            <td class="params">email, password</td>
+            <td>&nbsp;</td>
+            <td>form errors</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/users/id/verify</td>
+            <td>Verify email address and allow user login</td>
+            <td class="params">magic_key</td>
+            <td>redirect: index.html?<br>email=&lt;email&gt;,verified=true</td>
+            <td>html: render verify.html</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/users/id</td>
+            <td>Get a user's details.<br>The user being queried must be logged in.</td>
+            <td>&nbsp;</td>
+            <td>user object</td>
+            <td>'no user', 'not allowed'</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/users/id/items</td>
+            <td>Get all the items listed by the user.<br>The user being queried must be logged in.</td>
+            <td>&nbsp;</td>
+            <td>array of items</td>
+            <td>'no user', 'not allowed'</td>
+        </tr>
+        <tr class="divider">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/items</td>
+            <td>Returns 20 most recent items</td>
+            <td>&nbsp;</td>
+            <td>array of items</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/items</td>
+            <td>Get all items within map bounds</td>
+            <td class="params">sw_lat, sw_lng, ne_lat, ne_lng</td>
+            <td>array of items</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/items</td>
+            <td>Get all items matching the search term</td>
+            <td class="params">q</td>
+            <td>array of items</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/items</td>
+            <td>Get all items matching the search term within the map bounds</td>
+            <td class="params">sw_lat, sw_lng, ne_lat, ne_lng, q</td>
+            <td>array of items</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/items/id</td>
+            <td>Get an item's publicly-visible details.</td>
+            <td>&nbsp;</td>
+            <td>single item object</td>
+            <td>'no item'</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/items/new</td>
+            <td>Create a new item.<br>User must be logged in.</td>
+            <td class="params">title, description, postcode, lat, lng</td>
+            <td>&nbsp;</td>
+            <td>form errors</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/items/id/update</td>
+            <td>Update an item.<br>Item's owner must be logged in.</td>
+            <td class="params">title, description</td>
+            <td>&nbsp;</td>
+            <td>form errors, 'no item', 'not allowed'</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/items/id/message</td>
+            <td>Send a message to the item's owner</td>
+            <td class="params">email, message</td>
+            <td>&nbsp;</td>
+            <td>form errors</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/items/id/relist</td>
+            <td>Set an item's expiry date 2 weeks in the future.<br>Item's owner must be logged in.</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>'no item', 'not allowed'</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/items/id/expire</td>
+            <td>Expire immediately.<br>Item's owner must be logged in.</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>'no item', 'not allowed'</td>
+        </tr>
+        <tr class="divider">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">GET</td>
+            <td>/messages/id/report_spam</td>
+            <td>Mark message as spam</td>
+            <td class="params">magic_key</td>
+            <td>html: render report_spam.html</td>
+            <td>html: render report_spam.html</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="method">POST</td>
+            <td>/feedback/new</td>
+            <td>Send feedback message about Reyooz</td>
+            <td>email, <strong>message</strong></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+Notes:<br>
+<ul>
+    <li>Unless otherwise specified, all responses are JSON. </li>
+    <li>Where blank, success and failure responses are either {success: true} or {success: false}</li>
+    <li>For all enquiries about the API, please contact <a href="mailto:help@reyooz.org">help@reyooz.org</a></li>
+</ul>
+{% endblock %}

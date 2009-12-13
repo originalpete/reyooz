@@ -1,0 +1,13 @@
+Reyooz: a Django application for free stuff on google maps. 
+Written by Peter MacRobert, Mark Meyer and Justin Robinson. 
+Released under the BSD license.
+
+To get going:
+
+1. Sync the database
+./manage.py sync
+
+2. Start up the development server
+./manage.py runserver
+
+3. Point your browser to http://localhost:8000

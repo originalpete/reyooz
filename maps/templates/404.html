@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}404 Not Found{% endblock %}
+
+{% block content %}
+<div class="confirmation">
+    <div class="wrapper">
+        <h1>Not found</h1>
+        <p>
+            Sorry, we can't find anything at {{request_path}}. Please check that the link is correct, or 
+            <a href='/'>go back to square one.</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

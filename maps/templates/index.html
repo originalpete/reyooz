@@ -1,0 +1,566 @@
+{% extends "base.html" %}
+
+{% block js %}
+    <script type="text/javascript" src="/static/js/jquery.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/jquery.ui.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/jquery.widgets.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/jquery.pngFix.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/jquery.bubble.js?{{cache_buster}}"></script>
+    
+    <script src="http://www.google.com/jsapi?key={{api_key}}" type="text/javascript"></script>
+    
+    <script type="text/javascript" src="/static/js/help.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/messages.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/map.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/items.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/user.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/layout.js?{{cache_buster}}"></script>
+    <script type="text/javascript" src="/static/js/footer.js?{{cache_buster}}"></script>  
+    <script type="text/javascript" src="/static/js/controller.js?{{cache_buster}}"></script>
+{% endblock %}
+
+{% block content %}
+    
+    <div id="loadingWrapper" class="hidden">
+        <div id="header">
+            <div id="buttonAddItem">
+                <a href="#">I want to list an item</a>
+            </div>
+            <div id="buttonEditItems"{% ifequal user.item_set.count None %} class="hidden" {% endifequal %}>
+                <a href="#">Manage my items</a>
+            </div>
+            <div id="loginLogout" class="{% if user.is_authenticated %}isLoggedIn{% else %}isLoggedOut{% endif %}">
+                <a class="loginLogout">
+                {% if user.is_authenticated %} 
+                    Logout <span class="currentUserEmail">{{ user.email }}</span><input type="hidden" class="userId" value="{{ user.id }}" /> 
+                {% else %}
+                    Login
+                {% endif %}
+                </a>
+            </div>
+            <div id="buttonHelp">
+                <a href="#">Help!</a>
+            </div>
+        </div>
+    
+        <div id="logo">
+            <div id="searchWrapper">
+                <input type="text" name="search" value="search for things here..." class="search searchEmpty">
+                <a href="#" class="search"><span class="label">Search</span></a>
+            </div>
+        </div>
+        
+        <div id="content">
+            <div id="listingsWrapper">
+                <div id="listings">
+                    <div class="noItemsFound hidden">
+                        There are currently no items to be found on your map, try <a href="#" class="zoomOut">zooming out</a> for a bigger search area.
+                    </div>
+                    <ul>
+                	
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mapWrapper">
+    
+            <div id="map"></div>
+        
+            <div class="mapCornerTl"></div>
+            <div class="mapCornerTr"></div>
+            <div class="mapCornerBr"></div>
+            <div class="mapCornerBl"></div>
+        
+            <div class="mapTop"></div>
+            <div class="mapRight"></div>
+            <div class="mapBottom"></div>
+            <div class="mapLeft"></div>
+        
+            <div id="itemOverlay" class="hidden">
+        
+                <div id="editItem" class="dialog">
+                    <div class="content">
+                        <div class="borderTop"></div>
+                        <div class="borderBottom"></div>
+                        <h1>Edit my items</h1>
+                        <a class="close">x</a>
+                        <div class="myItems">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="addItem" class="dialog">
+                    <div class="content">
+                        <div class="borderTop"></div>
+                        <div class="borderBottom"></div>
+                        <h1>Add your item to the map</h1>
+                        <a class="close">x</a>
+                        <div class="where">
+                            <h2>Where is it?</h2>
+                            <input type="text" class="where" value="" />
+                            <input type="hidden" class='itemLat' value="" />
+                            <input type="hidden" class='itemLng' value="" />
+                            <a class="search">go</a>
+                            <div class="miniMap">
+                                <div class="map"></div>
+                            </div>
+                            <p>(You can drag the marker too)</p>
+                        </div>
+                        <div class="what">
+                            <h2>Tell people what it is.</h2>
+                            
+                            <div class="title">
+                                <input id="addItemTitle" type="text" class="title titleEmpty" value="Give it a title..." />
+                            </div>
+                            
+                            <div class="description">
+                                <textarea id="addItemDescription" class="description descriptionEmpty" rows="4">... and a description</textarea>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <a class="cancel">cancel</a>
+                            <a class="button save"><div class="left"></div><span class="label">Save</span></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="loginSignup" class="dialog">
+                    <div class="content">
+                        <div class="borderTop"></div>
+                        <div class="borderBottom"></div>
+                        <h1>Login or signup to add things to the map</h1>
+                        <a class="close">x</a>
+                        <div class="login">
+                            <div class='loginHeader'>
+                                <h2>Login</h2>
+                                <p>If you already have an account</p>
+                            </div>
+                            <div class="verification">
+                                <h2>You have successfully activated your account!</h2>
+                                <p>Login below to start listing your items.</p>
+                            </div>
+                            <label>Email address</label>
+                            <input id="loginFormEmail" type="text" class="username email" value="" name="loginFormEmail" />
+                            <label>Password</label>
+                            <input id="loginFormPassword" type="password" class="password" value="" name="loginFormPassword" />
+                            <a class="button login"><div class="left"></div><span class="label">Login</span></a>
+                        </div>
+                        <div class="signup">
+                            <h2>Sign up for free!</h2>
+                            <p>We just need your email address and a password. <a class="help"></a></p>
+                            <div class="title">
+                                <label>Your email address</label>
+                                <input id="newUserEmail" name="newUserEmail" type="text" class="username email" value="" />
+                            </div>
+                            
+                            <div class="setPassword">
+                                <label>Choose a password</label>
+                                <input id="newUserPassword" name="newUserPassword" type="password" class="password" />
+                            </div>
+                            
+                            <div class="confirmPassword">
+                                <label>Type your password again</label>
+                                <input id="newUserConfirmPassword" name="newUserConfirmPassword" type="password" class="passwordConfirm confirm_password" />
+                            </div>
+                            
+                            <a class="button signup"><div class="left"></div><span class="label">Sign up</span></a>
+                            <p class="privacy">We respect your privacy and won't send any unnecessary emails. Please refer to our <a class="privacy">terms and conditions</a> for more information.</p>
+                        </div>
+                        <div class="privacy">
+                            <div class="content">
+                                <div class="copy">
+                                    <h2>Contact details</h2>
+                                    <p>
+                                        <strong>This is the website of Reyooz.org</strong>
+                                        <br/><br/>
+                                        For the purposes of this document the names REYOOZ, REYOOZ.ORG and THE WEBSITE are taken to mean 
+                                        all of the owners, software developers and associates responsible for the provision, development, hosting
+                                        and maintenance of the Reyooz.org internet site. Furthermore, YOU, THE USER and REYOOZER is taken to mean
+                                        any member of the public who browses, signs up, lists items, contacts other users or performs any 
+                                        action via the Reyooz.org website.
+                                    </p>
+                                    <p>
+                                        Reyooz can be reached at:<br/>
+                                        43 Kathleen Rd<br/>
+                                        Clapham<br/>
+                                        London<br/>
+                                        United Kingdom<br/>
+                                        <br/>
+                                        Email us on help@reyooz.org
+                                    </p>
+                                    <h2>Conditions of use</h2>
+                                    <p>
+                                        Reyooz.org is a free, non-profit internet platform for members of the public (Reyoozers) 
+                                        to list and recycle the excess clutter in their homes and offices. Hawking or selling items 
+                                        through Reyooz is strictly prohibited, and users who are found violating the conditions of use 
+                                        will be barred from the site.
+                                    </p>
+                                    <p>
+                                        Certain items are deemed inappropriate for listing on Reyooz.org. Inappropriate items include 
+                                        pornography, adult material or items of a sexual nature, weapons, foodstuffs, drugs or 
+                                        pharmaceutical materials of any kind (legal or otherwise), drug or pharmaceutical equipment 
+                                        of any kind (legal or otherwise), chemicals, dangerous or hazardous materials. Reyooz 
+                                        reserves the right to change or update the list of inappropriate items. Reyooz also reserves 
+                                        the right to withdraw or remove any items and/or user accounts without notice.
+                                    </p>
+                                    <p>
+                                        Reyoozers are also encouraged to report suspicious or inappropriate items by emailing us on the 
+                                        address above, giving the item description and area, where possible. 
+                                    </p>
+                                    <h2>Liability</h2>
+                                    <p>
+                                        Reyooz.org assumes no responsibility or liability whatsoever for the website, its content or 
+                                        any email messages sent via the website. Reyooz also assumes no liability for the safety of 
+                                        Reyoozers when they make contact with members of the public, either via the website or in 
+                                        person. 
+                                    </p>
+                                    <p>
+                                        Reyooz.org makes no guarantees and assumes no liability for the condition, safety, legality, 
+                                        reliability or suitability of any item listed on the site. All actions performed on Reyooz.org 
+                                        are done so at the user's own risk.
+                                    </p> 
+                                    <h2>Safety</h2>
+                                    <p>
+                                        Reyooz encourages its users to be safe, sensible and responsible when using Reyooz.org. If you list 
+                                        an item on the website, you are not obligated to give it away, nor are you obligated to respond to 
+                                        messages about the item. However, if you change your mind and wish to withdraw the item then please 
+                                        do so by logging into the website and marking the item as taken.
+                                    </p>
+                                    <p>
+                                        Reyoozers should always exercise caution when meeting other people in person to exchange items. 
+                                        Have a friend or family member on hand if you are meeting someone at your own home, otherwise
+                                        arrange to meet up in a public area such as a shopping centre or train station.
+                                    </p>
+                                    <h2>Privacy policy</h2>
+                                    <p>
+                                        We take internet safety and privacy seriously. We do not expose your contact details on the site
+                                        if you list items on Reyooz.org. Instead, we provide a mechanism for other users to contact you
+                                        via the website so that you remain anonymous. If you choose to reply to messages from other Reyoozers 
+                                        then you do so via your own email system, and not via Reyooz.org.
+                                    </p>
+                                    <p>
+                                        Please note that at this time we do not have a mechanism to reset your password should you forget it.
+                                        If you forget your password then please contact us via the feedback form or the email address above,
+                                        and we will remove your user account which will allow you to sign up again with the same email address.
+                                    </p>
+                                    <p>
+                                        For each unauthenticated visitor to the website, our web server automatically recognises only the 
+                                        users's domain name, but not the e-mail address (where possible).
+                                    </p>
+                                    <p>
+                                        If you sign-up with Reyooz.org we will collect your IP address and email address during the
+                                        signup process.
+                                    </p>
+                                    <p>
+                                        We collect the e-mail addresses of those who communicate with us via e-mail, aggregate information 
+                                        on what pages visitors access, user-specific information on what pages users access or visit, 
+                                        information volunteered by the user, such as survey information and/or site registrations and the 
+                                        email addresses of people who post items on the site.
+                                    </p>
+                                    <p>
+                                        With respect to cookies: we use cookies to record past activity on the website in order to 
+                                        provide better service when visitors return to our site and record session information 
+                                        relevant to the correct functioning of the application.
+                                    </p>
+                                    <p>
+                                        If you do not want to receive e-mail from us in the future, please let us know by sending us e-mail 
+                                        at the above address and we will remove your user account.
+                                    </p>
+                                    <p>
+                                        With respect to advertising servers: we do not partner with or have special relationships with 
+                                        any ad server companies. From time to time, we may use customer information for new, 
+                                        unanticipated uses not previously disclosed in our privacy notice. If our information practices 
+                                        change at some time in the future we will post the policy changes to our website to notify you of 
+                                        these changes, and we will use for these new purposes only data collected from the time of the policy 
+                                        change forward. If you are concerned about how your information is used, you should check these 
+                                        terms and conditions periodically.
+                                    </p>
+                                    <p>
+                                        Upon request we provide site visitors with access to contact information 
+                                        (e.g., name, address, phone number) that we maintain about them, and a description of information 
+                                        that we maintain about them. We will need proof of identification before supplying this information.
+                                        Users can request this information by e-mail at the above address.
+                                    </p>
+                                    <p>
+                                        With respect to security: we have appropriate security measures in place within the Reyooz 
+                                        application, as well as in our server hosting infrastructure to protect against the loss, misuse 
+                                        or alteration of information that we have collected from you on the website. Your Reyooz password
+                                        is irreversibly encrypted and we will not be able to tell you what your password is.
+                                    </p>
+                                </div>
+                            </div>
+                            <a class="cancel"><span class="label">ok</span></a>
+                        </div>
+                        <div class="confirmation">
+                            <h2>Great, you're almost done!</h2>
+                            <p>We have just sent an email to <strong class="email"></strong></p>
+                            <p>Inside you'll find a link. Click it to confirm your email address and you're ready to go!</p>
+                            
+                            <div>
+                                <a class="button ok"><div class="left"></div><span class="label">Ok</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="welcome" class="dialog">
+                    <div class="content">
+                        <div class="borderTop"></div>
+                        <div class="borderBottom"></div>
+                        <a class="close">x</a>
+                        <div class="copy">
+                            <h2>Hi, before you get started, we&rsquo;ve been asked by our friends to explain a little something about what <em>Reyooz</em> is.</h2>
+                            <h3>On <em>Reyooz</em> you can give away things that have been taking up space for too long, or you can look for things other people are giving away.</h3>
+                            <h3>The rule at <em>Reyooz</em> is <strong><u>everything is offered free</u></strong>.</h3>
+                            <h4>By <em>Reyoozing</em> our stuff we help the community, de-clutter our homes and really do a lot to <a href="http://en.wikipedia.org/wiki/Ecological_footprint">help the environment</a>.</h4>
+                        </div>
+                        <div class="buttons">
+                            <a class="tellMeMore">I want more detail</a>
+                            <a class="button ok"><div class="left"></div><span class="label">Ok, let me get started</span></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="help" class="dialog">
+                    <div class="content">
+                        <div class="borderTop"></div>
+                        <div class="borderBottom"></div>
+                        <h1>How do I use Reyooz?</h1>
+                        <a class="close">x</a>
+                        <div class="copy">
+                            <div class="step3">
+                                <div class="photo"></div>
+                                <div class="number"></div>
+                                <div class="arrow"></div>
+                                <div class="text">
+                                    <p><strong>Want to get rid of something yourself?</strong> Click list an item and you’ll see the login or signup screen.</p>
+                                    <p><strong>Just complete your email address and a password</strong> and click Sign Up.</p>
+                                    <p><strong>You’ll receive an email</strong>, just click the link inside this email and you’ll be ready to login.</p>
+                                </div>
+                            </div>
+                            <div class="step2">
+                                <div class="photo"></div>
+                                <div class="number"></div>
+                                <div class="arrow"></div>
+                                <div class="text">
+                                    <p><strong>Want to take something?</strong> Click the contact button and fill in your email address and a message.</p>
+                                    <p><strong>We will send this to the person</strong> offering this item, they will then be able to send you an email and you two sort out how to collect.</p>
+                                </div>
+                            </div>
+                            <div class="step1">
+                                <div class="photo"></div>
+                                <div class="number"></div>
+                                <div class="arrow"></div>
+                                <div class="text">
+                                    <p><strong>Grab and drag the map to your area.</strong> Then you can see what people near you are giving away.</p>
+                                    <p><strong>Put your mouse over the markers</strong> to get a quick idea of what things are.</p>
+                                    <p><strong>Click the markers</strong> to see more details.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="continue"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="error"></div>
+        <div id="success"></div>
+        <div id="footer">
+            <div id="about" class="dialog">
+                <div class="content">
+                    <div class="borderTop"></div>
+                    <div class="borderBottom"></div>
+                    <h1>Hate clutter? Wanna find cool stuff?</h1>
+                    <a class="close">x</a>
+                    <div class="copy">
+                        <p>
+                            Reyooz.org was conceptualised and built by 
+                            <a href="http://justinteractive.net">Justin Robinson</a>, 
+                            <a href="http://markdotmeyer.net">Mark Meyer</a> and 
+                            <a href="http://blog.designalism.com">Peter MacRobert</a> 
+                            - a bunch of software developers and designers from London.
+                        </p>
+                        <p>
+                            We built Reyooz to make it easy to get rid of the stuff you've got lying around, without 
+                            adding to the Earth's over-burdened landfills.
+                        </p>
+                        <p>
+                            Our aim is to get more people to see the benefits in passing things on and increase awareness of 
+                            our impact on the planet.
+                        </p>
+                        <p>
+                            We promise to keep your email address private and you will only get email from us when 
+                            someone wants to take something you've offered or if we think there's something 
+                            you really need to know.
+                        </p>
+                        <p>
+                            If you like what we're doing or want to get in touch then please send us 
+                            a message via the feedback form or drop us an email on <a href="mailto:help@reyooz.org">help@reyooz.org</a>.
+                        </p>
+                        <p>
+                            Happy hunting!
+                        </p>
+                        <p>
+                            Justin, Mark and Pete<br/>
+                            Reyooz.org &copy; 2009
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="termsAndConditions" class="dialog">
+                <div class="content">
+                    <div class="borderTop"></div>
+                    <div class="borderBottom"></div>
+                    <h1>Terms &amp; Conditions</h1>
+                    <a class="close">x</a>
+                    <div class="copy">
+                        <h2>Contact details</h2>
+                        <p>
+                            <strong>This is the website of Reyooz.org</strong>
+                            <br/><br/>
+                            For the purposes of this document the names REYOOZ, REYOOZ.ORG and THE WEBSITE are taken to mean 
+                            all of the owners, software developers and associates responsible for the provision, development, hosting
+                            and maintenance of the Reyooz.org internet site. Furthermore, YOU, THE USER and REYOOZER is taken to mean
+                            any member of the public who browses, signs up, lists items, contacts other users or performs any 
+                            action via the Reyooz.org website.
+                        </p>
+                        <p>
+                            Reyooz can be reached at:<br/>
+                            11 Fernbank Mews<br/>
+                            Clapham<br/>
+                            London<br/>
+                            United Kingdom<br/>
+                            <br/>
+                            Email us on help@reyooz.org
+                        </p>
+                        <h2>Conditions of use</h2>
+                        <p>
+                            Reyooz.org is a free, non-profit internet platform for members of the public (Reyoozers) 
+                            to list and recycle the excess clutter in their homes and offices. Hawking or selling items 
+                            through Reyooz is strictly prohibited, and users who are found violating the conditions of use 
+                            will be barred from the site.
+                        </p>
+                        <p>
+                            Certain items are deemed inappropriate for listing on Reyooz.org. Inappropriate items include 
+                            pornography, adult material or items of a sexual nature, weapons, foodstuffs, drugs or 
+                            pharmaceutical materials of any kind (legal or otherwise), drug or pharmaceutical equipment 
+                            of any kind (legal or otherwise), chemicals, dangerous or hazardous materials. Reyooz 
+                            reserves the right to change or update the list of inappropriate items. Reyooz also reserves 
+                            the right to withdraw or remove any items and/or user accounts without notice.
+                        </p>
+                        <p>
+                            Reyoozers are also encouraged to report suspicious or inappropriate items by emailing us on the 
+                            address above, giving the item description and area, where possible. 
+                        </p>
+                        <h2>Liability</h2>
+                        <p>
+                            Reyooz.org assumes no responsibility or liability whatsoever for the website, its content or 
+                            any email messages sent via the website. Reyooz also assumes no liability for the safety of 
+                            Reyoozers when they make contact with members of the public, either via the website or in 
+                            person. 
+                        </p>
+                        <p>
+                            Reyooz.org makes no guarantees and assumes no liability for the condition, safety, legality, 
+                            reliability or suitability of any item listed on the site. All actions performed on Reyooz.org 
+                            are done so at the user's own risk.
+                        </p> 
+                        <h2>Safety</h2>
+                        <p>
+                            Reyooz encourages its users to be safe, sensible and responsible when using Reyooz.org. If you list 
+                            an item on the website, you are not obligated to give it away, nor are you obligated to respond to 
+                            messages about the item. However, if you change your mind and wish to withdraw the item then please 
+                            do so by logging into the website and marking the item as taken.
+                        </p>
+                        <p>
+                            Reyoozers should always exercise caution when meeting other people in person to exchange items. 
+                            Have a friend or family member on hand if you are meeting someone at your own home, otherwise
+                            arrange to meet up in a public area such as a shopping centre or train station.
+                        </p>
+                        <h2>Privacy policy</h2>
+                        <p>
+                            We take internet safety and privacy seriously. We do not expose your contact details on the site
+                            if you list items on Reyooz.org. Instead, we provide a mechanism for other users to contact you
+                            via the website so that you remain anonymous. If you choose to reply to messages from other Reyoozers 
+                            then you do so via your own email system, and not via Reyooz.org.
+                        </p>
+                        <p>
+                            Please note that at this time we do not have a mechanism to reset your password should you forget it.
+                            If you forget your password then please contact us via the feedback form or the email address above,
+                            and we will remove your user account which will allow you to sign up again with the same email address.
+                        </p>
+                        <p>
+                            For each unauthenticated visitor to the website, our web server automatically recognises only the 
+                            users's domain name, but not the e-mail address (where possible).
+                        </p>
+                        <p>
+                            If you sign-up with Reyooz.org we will collect your IP address and email address during the
+                            signup process.
+                        </p>
+                        <p>
+                            We collect the e-mail addresses of those who communicate with us via e-mail, aggregate information 
+                            on what pages visitors access, user-specific information on what pages users access or visit, 
+                            information volunteered by the user, such as survey information and/or site registrations and the 
+                            email addresses of people who post items on the site.
+                        </p>
+                        <p>
+                            With respect to cookies: we use cookies to record past activity on the website in order to 
+                            provide better service when visitors return to our site and record session information 
+                            relevant to the correct functioning of the application.
+                        </p>
+                        <p>
+                            If you do not want to receive e-mail from us in the future, please let us know by sending us e-mail 
+                            at the above address and we will remove your user account.
+                        </p>
+                        <p>
+                            With respect to advertising servers: we do not partner with or have special relationships with 
+                            any ad server companies. From time to time, we may use customer information for new, 
+                            unanticipated uses not previously disclosed in our privacy notice. If our information practices 
+                            change at some time in the future we will post the policy changes to our website to notify you of 
+                            these changes, and we will use for these new purposes only data collected from the time of the policy 
+                            change forward. If you are concerned about how your information is used, you should check these 
+                            terms and conditions periodically.
+                        </p>
+                        <p>
+                            Upon request we provide site visitors with access to contact information 
+                            (e.g., name, address, phone number) that we maintain about them, and a description of information 
+                            that we maintain about them. We will need proof of identification before supplying this information.
+                            Users can request this information by e-mail at the above address.
+                        </p>
+                        <p>
+                            With respect to security: we have appropriate security measures in place within the Reyooz 
+                            application, as well as in our server hosting infrastructure to protect against the loss, misuse 
+                            or alteration of information that we have collected from you on the website. Your Reyooz password
+                            is irreversibly encrypted and we will not be able to tell you what your password is.
+                        </p>
+                    </div>
+                </div>                
+            </div>
+            <div id="feedback" class="dialog">
+                <div class="content">
+                    <div class="borderTop"></div>
+                    <div class="borderBottom"></div>
+                    <h1>What do you think?</h1>
+                    <a class="close">x</a>
+                    <fieldset class="feedbackForm">
+                        <label for="feedbackFormMessage">Your message</label>
+                        <textarea id="feedbackFormMessage" class="message" rows="10"></textarea>
+                        <label for="feedbackFormEmail">Your email address (not required)</label>
+                        <input id="feedbackFormEmail" type="text" class="email" value="" name="feedbackFormEmail" />
+                    </fieldset>
+                    <div class="buttons">
+                        <a class="button send"><div class="left"></div><span class="label">Send</span></a>
+                    </div>
+                </div>
+            </div>
+            Reyooz.org &copy; 2009 | 
+            <a class="about" href="#">About us</a> | 
+            <a class="termsAndConditions" href="#">Terms &amp; conditions</a> | 
+            <a class="feedback" href="#">Send us feedback</a> | 
+            <a href="/api">Reyooz API</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "api_scaffold/base.html" %}
+
+{% block content %}
+    <div>
+        <div class="apiMethod">
+            <h1>Login</h1>
+            <form id="loginForm" action="/login" method="POST">
+                <label for="email">Email address</label>
+                <input type="text" name="email" value="" />
+                <label for="password">Password</label>
+                <input type="password" name="password" value="" />
+                <input type="submit" value="Log in" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Logout</h1>
+            {% if user.is_authenticated %}
+                Logged in with {{ user.email }}
+            {% else %}
+                Not logged in.
+            {% endif %}
+            <form id="logoutForm" action="/logout" method="GET">
+                <input type="submit" value="Log out" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Create a new user</h1>
+            <form id="newUserForm" action="/users/new" method="POST">
+                <label for="email">Email address</label>
+                <input type="text" name="email" value="" />
+                <label for="password">Password</label>
+                <input type="password" name="password" value="" />
+                <label for="confirm_password">Confirm password</label>
+                <input type="password" name="confirm_password" value="" />
+                <input type="submit" value="Create user" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Verify user's email address</h1>
+            <form id="VerifyUserForm" action="/users/user_id/verify" method="GET">
+                <label for="user_id">User id</label>
+                <input type="text" name="user_id" value="" />
+                <label for="magic_key">Magic key</label>
+                <input type="text" name="magic_key" value="" />
+                <input type="submit" value="Verify user" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Get user by id</h1>
+            <form id="getUserForm" action="/users/user_id" method="GET">
+                <label for="user_id">User id</label>
+                <input type="text" name="user_id" value="" />
+                <input type="submit" value="Get user" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Get items listed by a user</h1>
+            <form id="getUserItemsForm" action="/users/user_id/items" method="GET">
+                <label for="user_id">User id</label>
+                <input type="text" name="user_id" value="" />
+                <input type="submit" value="Get items" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Create a new item</h1>
+            <form id="newItemForm" action="/items/new" method="POST">
+                <label for="title">Title</label>
+                <input type="text" name="title" value="" />
+                <label for="description">Description</label>
+                <textarea name="description" value=""></textarea>
+                <label for="lat">Latitude</label>
+                <input type="text" name="lat" value="" />
+                <label for="lng">Longitude</label>
+                <input type="text" name="lng" value="" />
+                <input type="submit" value="Create item" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Send a message about the item</h1>
+            <form id="itemMessageForm" action="/items/item_id/message" method="POST">
+                <label for="item_id">Item id</label>
+                <input type="text" name="item_id" value="" />
+                <label for="email">Your email address</label>
+                <input type="text" name="email" value="" />
+                <label for="message">Message</label>
+                <textarea name="message" value=""></textarea>
+                <input type="submit" value="Send message" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Get item</h1>
+            <form id="getItemForm" action="/items/item_id" method="GET">
+                <label for="item_id">Item id</label>
+                <input type="text" name="item_id" value="" />
+                <input type="submit" value="Get item" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Update an item</h1>
+            <form id="updateItemForm" action="/items/item_id/update" method="POST">
+                <label for="item_id">Item id</label>
+                <input type="text" name="item_id" value="" />
+                <label for="title">Title</label>
+                <input type="text" name="title" value="" />
+                <label for="description">Description</label>
+                <textarea name="description" value=""></textarea>
+                <label for="lat">Latitude</label>
+                <input type="text" name="lat" value="" />
+                <label for="lng">Longitude</label>
+                <input type="text" name="lng" value="" />
+                <input type="submit" value="Update item" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Expire an item</h1>
+            <form id="expireItemForm" action="/items/item_id/expire" method="POST">
+                <label for="item_id">Item id</label>
+                <input type="text" name="item_id" value="" />
+                <input type="submit" value="Expire item" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Re-list item</h1>
+            <form id="relistItemForm" action="/items/item_id/relist" method="POST">
+                <label for="item_id">Item id</label>
+                <input type="text" name="item_id" value="" />
+                <input type="submit" value="Re-list item" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Browse or search items</h1>
+            <form id="getItemsForm" action="/items" method="GET">
+                <label for="q">Search</label>
+                <input type="text" name="q" value="" />
+                <label for="sw_lat">SE Latitude</label>
+                <input type="text" name="sw_lat" value="" />
+                <label for="sw_lng">SE Longitude</label>
+                <input type="text" name="sw_lng" value="" />
+                <label for="ne_lat">NW Latitude</label>
+                <input type="text" name="ne_lat" value="" />
+                <label for="ne_lng">NW Longitude</label>
+                <input type="text" name="ne_lng" value="" />                
+                <input type="submit" value="Get items" />
+            </form>
+        </div>
+        <div class="apiMethod">
+            <h1>Send feedback message</h1>
+            <form id="feedbackMessageForm" action="/feedback/new" method="POST">
+                <label for="email">Your email address</label>
+                <input type="text" name="email" value="" />
+                <label for="message">Message</label>
+                <textarea name="message" value=""></textarea>
+                <input type="submit" value="Send message" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="accountConfirmation">
+        <div class="wrapper">
+            {% if success %}
+                <p>
+                    <strong>Fantastic!</strong> Your user account has been successfully activated. 
+                </p>
+                <p>
+                    You are now ready to <a href='/'>login</a> and start listing your items...
+                </p>
+            {% else %}
+                <p>
+                    Sorry, we couldn't verify your Reyooz.org account for the following reason(s):
+                    <ul>
+                        {% for error in errors %}
+                            <li>{{error}}</li>
+                        {% endfor %}
+                    </ul>
+                </p>
+                <p>
+                    Please click on the link in the sign-up email you received in order to verify your account. If 
+                    you are copying and pasting the link into your browser then ensure that the link is copied in full.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
